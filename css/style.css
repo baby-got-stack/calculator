@@ -8,4 +8,22 @@ body{
     height: 100vh;
     font-family: 'M PLUS Rounded 1c', sans-serif;
     user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--dark__bg__color);
+}
+
+/*Variables*/
+:root{
+    --dark__bg__color: #8b6b98;
+    --light__bg__color: #eeeeee;
+    --dark__font__color: #222222;
+    --light__font__color: #888888;
+}
+
+.calculator__container{
+    display: flex;
+    flex-direction: column;
+    
 }
