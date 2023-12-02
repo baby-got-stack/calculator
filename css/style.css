@@ -16,14 +16,96 @@ body{
 
 /*Variables*/
 :root{
-    --dark__bg__color: #8b6b98;
+    --dark__bg__color: #666666;
     --light__bg__color: #eeeeee;
     --dark__font__color: #222222;
-    --light__font__color: #888888;
+    --light__font__color: #999999;
+    --key__number__color: #ff7847;
 }
 
 .calculator__container{
     display: flex;
     flex-direction: column;
-    
+    justify-content: flex-start;
+    align-items: center;
+    height: 40rem;
+    width: 24rem;
+    border-radius: 1rem;
+    border: 5px solid var(--dark__font__color);
+}
+
+.calculator__display{
+    width: 90%;
+    height: 7rem;
+    border-radius: 1rem;
+    background-color: var(--dark__font__color);
+    margin: 1rem 0 5rem;
+    color: var(--light__bg__color);
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    align-items: flex-end;
+    flex-direction: column;
+}
+
+.operations__display{
+    margin-right: 2rem;
+    font-size: 1rem;
+}
+
+.number__display{
+    margin-right: 2rem;
+    font-size: 2rem;
+}
+
+.calculator__keys{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.keys__row{
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.key{
+    height: 4.5rem;
+    width: 5rem;
+    border-radius: 1rem;
+    background-color: var(--key__number__color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.key__double{
+    width: 10.5rem;
+}
+
+.number__key{
+    background-color: var(--dark__font__color);
+    color: var(--light__font__color);
+}
+
+.function__key{
+    background-color: var(--light__bg__color);
+}
+
+.function__key__click{
+    background-color: #adadad;
+    scale: 1.05;
+}
+
+.operator__key__click{
+    background-color: #c05d39;
+    scale: 1.05;
+}
+
+.number__key__click{
+    background-color: #333333;
+    scale: 1.025;
 }
