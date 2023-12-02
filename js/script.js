@@ -27,7 +27,7 @@ const allNumberKeys = document.querySelectorAll('.number__key')
 const operationsDisplayValue = document.querySelector('.operations__display');
 const numberDisplayValue = document.querySelector('.number__display');
 
-// Initial number and operator values
+// Initial number and operator values THINK OF STARTING VALUES '' AS EMPTY STRINGS; USERS SHOULD BE ABLE TO ADD TO ZERO
 let firstNumber = 0;
 let secondNumber = 0;
 let operandSign = '';
@@ -65,6 +65,29 @@ function updateNumberDisplay(number){
     return numberDisplayValue.textContent = firstNumber;
 }
 
+// Dot event listener
+dotKey.addEventListener('click', () => {
+    if(!firstNumber.toString().includes('.')){
+        if(firstNumber === 0){
+            firstNumber = '';
+        }
+        firstNumber += ".";
+        numberDisplayValue.textContent = firstNumber;
+    }
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === '.'){
+        if(!firstNumber.toString().includes('.')){
+            if(firstNumber === 0){
+                firstNumber = '';
+            }
+            firstNumber += ".";
+            numberDisplayValue.textContent = firstNumber;
+        }
+    }
+});
+
 // Six key event listener
 sixKey.addEventListener('click', () => {
     if(firstNumber === 0){
@@ -86,6 +109,69 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
+// Seven key event listener
+sevenKey.addEventListener('click', () => {
+    if(firstNumber === 0){
+        firstNumber = '';
+    }
+    firstNumber += "7";
+    numberDisplayValue.textContent = firstNumber;
+    firstNumber = +firstNumber;
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === '7'){
+        if(firstNumber === 0){
+            firstNumber = '';
+        }
+        firstNumber += "7";
+        numberDisplayValue.textContent = firstNumber;
+        firstNumber = +firstNumber;
+    }
+});
+
+// Eight key event listener
+eightKey.addEventListener('click', () => {
+    if(firstNumber === 0){
+        firstNumber = '';
+    }
+    firstNumber += "8";
+    numberDisplayValue.textContent = firstNumber;
+    firstNumber = +firstNumber;
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === '8'){
+        if(firstNumber === 0){
+            firstNumber = '';
+        }
+        firstNumber += "8";
+        numberDisplayValue.textContent = firstNumber;
+        firstNumber = +firstNumber;
+    }
+});
+
+// Nine key event listener
+nineKey.addEventListener('click', () => {
+    if(firstNumber === 0){
+        firstNumber = '';
+    }
+    firstNumber += "9";
+    numberDisplayValue.textContent = firstNumber;
+    firstNumber = +firstNumber;
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === '9'){
+        if(firstNumber === 0){
+            firstNumber = '';
+        }
+        firstNumber += "9";
+        numberDisplayValue.textContent = firstNumber;
+        firstNumber = +firstNumber;
+    }
+});
+
 // Clear key event listener
 clearKey.addEventListener('click', () => {
     updateNumberDisplay(0);
@@ -97,12 +183,55 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
+// Delete key event listener
+deleteKey.addEventListener('click', () => {
+    if(firstNumber !== 0){
+            
+        if(firstNumber.toString().slice(-2, -1) === '.'){
+            firstNumber = firstNumber.toString().slice(0, -2);
+        } else {
+            firstNumber = firstNumber.toString().slice(0, -1);
+        }
+
+        if(firstNumber === 0 || firstNumber === '' || firstNumber === '0'){
+            numberDisplayValue.textContent = 0;
+        } else {
+            numberDisplayValue.textContent = firstNumber;
+        }
+
+        firstNumber = +firstNumber;
+
+    }
+});
+
+document.addEventListener('keydown', function(e){
+    if (e.key === 'Backspace'){
+        if(firstNumber !== 0){
+
+            if(firstNumber.toString().slice(-2, -1) === '.'){
+                firstNumber = firstNumber.toString().slice(0, -2);
+            } else {
+                firstNumber = firstNumber.toString().slice(0, -1);
+            }
+
+            if(firstNumber === 0 || firstNumber === '' || firstNumber === '0'){
+                numberDisplayValue.textContent = 0;
+            } else {
+                numberDisplayValue.textContent = firstNumber;
+            }
+
+            firstNumber = +firstNumber;
+
+        }
+    }
+});
+
 // Equals key event listener
 equalsKey.addEventListener('click', () => {
     if(firstNumber !== 0 && firstNumber !== '' && secondNumber !== 0){
     // The secondNumber is the first argument because it actually holds the value of the first/initial number
     // Likewise, the firstNumber variable actually holds the second number value and is reset to the resulting number of the operation
-    result = operate(secondNumber, firstNumber, operandSign);
+    result = Number((operate(secondNumber, firstNumber, operandSign)).toFixed(4));
     numberDisplayValue.textContent = result;
     operationsDisplayValue.textContent = `${secondNumber} ${operandSign} ${firstNumber} = ${result}`;
 
@@ -126,7 +255,7 @@ document.addEventListener('keydown', function(e) {
             if(firstNumber !== 0 && firstNumber !== '' && secondNumber !== 0){
                 // The secondNumber is the first argument because it actually holds the value of the first/initial number
                 // Likewise, the firstNumber variable actually holds the second number value and is reset to the resulting number of the operation
-                result = operate(secondNumber, firstNumber, operandSign);
+                result = Number((operate(secondNumber, firstNumber, operandSign)).toFixed(4));
                 numberDisplayValue.textContent = result;
                 operationsDisplayValue.textContent = `${secondNumber} ${operandSign} ${firstNumber} = ${result}`;
             
