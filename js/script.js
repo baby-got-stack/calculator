@@ -61,6 +61,8 @@ operationsDisplayValue.textContent = '';
 
 function updateNumberDisplay(number){
     firstNumber = number;
+    // This will set the second number back to 0, its default
+    secondNumber = number;
     operationsDisplayValue.textContent = '';
     return numberDisplayValue.textContent = firstNumber;
 }
@@ -85,6 +87,132 @@ document.addEventListener('keydown', function(e) {
             firstNumber += ".";
             numberDisplayValue.textContent = firstNumber;
         }
+    }
+});
+
+// Zero key event listener
+zeroKey.addEventListener('click', () => {
+    if(firstNumber === 0){
+        firstNumber = '';
+    }
+    firstNumber += "0";
+    numberDisplayValue.textContent = firstNumber;
+    firstNumber = +firstNumber;
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === '0'){
+        if(firstNumber === 0){
+            firstNumber = '';
+        }
+        firstNumber += "0";
+        numberDisplayValue.textContent = firstNumber;
+        firstNumber = +firstNumber;
+    }
+});
+
+// One key event listener
+oneKey.addEventListener('click', () => {
+    if(firstNumber === 0){
+        firstNumber = '';
+    }
+    firstNumber += "1";
+    numberDisplayValue.textContent = firstNumber;
+    firstNumber = +firstNumber;
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === '1'){
+        if(firstNumber === 0){
+            firstNumber = '';
+        }
+        firstNumber += "1";
+        numberDisplayValue.textContent = firstNumber;
+        firstNumber = +firstNumber;
+    }
+});
+
+// Two key event listener
+twoKey.addEventListener('click', () => {
+    if(firstNumber === 0){
+        firstNumber = '';
+    }
+    firstNumber += "2";
+    numberDisplayValue.textContent = firstNumber;
+    firstNumber = +firstNumber;
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === '2'){
+        if(firstNumber === 0){
+            firstNumber = '';
+        }
+        firstNumber += "2";
+        numberDisplayValue.textContent = firstNumber;
+        firstNumber = +firstNumber;
+    }
+});
+
+// Three key event listener
+threeKey.addEventListener('click', () => {
+    if(firstNumber === 0){
+        firstNumber = '';
+    }
+    firstNumber += "3";
+    numberDisplayValue.textContent = firstNumber;
+    firstNumber = +firstNumber;
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === '3'){
+        if(firstNumber === 0){
+            firstNumber = '';
+        }
+        firstNumber += "3";
+        numberDisplayValue.textContent = firstNumber;
+        firstNumber = +firstNumber;
+    }
+});
+
+// Four key event listener
+fourKey.addEventListener('click', () => {
+    if(firstNumber === 0){
+        firstNumber = '';
+    }
+    firstNumber += "4";
+    numberDisplayValue.textContent = firstNumber;
+    firstNumber = +firstNumber;
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === '4'){
+        if(firstNumber === 0){
+            firstNumber = '';
+        }
+        firstNumber += "4";
+        numberDisplayValue.textContent = firstNumber;
+        firstNumber = +firstNumber;
+    }
+});
+
+// Five key event listener
+fiveKey.addEventListener('click', () => {
+    if(firstNumber === 0){
+        firstNumber = '';
+    }
+    firstNumber += "5";
+    numberDisplayValue.textContent = firstNumber;
+    firstNumber = +firstNumber;
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === '5'){
+        if(firstNumber === 0){
+            firstNumber = '';
+        }
+        firstNumber += "5";
+        numberDisplayValue.textContent = firstNumber;
+        firstNumber = +firstNumber;
     }
 });
 
@@ -228,14 +356,21 @@ document.addEventListener('keydown', function(e){
 
 // Equals key event listener
 equalsKey.addEventListener('click', () => {
-    if(firstNumber !== 0 && firstNumber !== '' && secondNumber !== 0){
+    if((firstNumber !== 0 && firstNumber !== '') || (secondNumber !== 0)){
     // The secondNumber is the first argument because it actually holds the value of the first/initial number
     // Likewise, the firstNumber variable actually holds the second number value and is reset to the resulting number of the operation
-    result = Number((operate(secondNumber, firstNumber, operandSign)).toFixed(4));
+    if ((firstNumber === 0 || firstNumber === '') && operandSign === '/'){
+        result = 'Error';
+    } else {
+        result = Number((operate(secondNumber, firstNumber, operandSign)).toFixed(4));
+    }
     numberDisplayValue.textContent = result;
     operationsDisplayValue.textContent = `${secondNumber} ${operandSign} ${firstNumber} = ${result}`;
 
     firstNumber = result;
+    // Resets secondNumber to empty string
+    secondNumber = '';
+    operandSign = '';
     }
 });
 
@@ -244,15 +379,34 @@ document.addEventListener('keydown', function(e) {
     if (e.keyCode === 187) {
         if (e.shiftKey) {
             // Plus key was pressed
-            operandSign = '+';
-            operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
-            // Very important, assigns value of first number to secondNumber variable
-            // After this, the first number becomes like the real "second number" until equals is clicked
-            secondNumber = firstNumber;
-            firstNumber = '';
+            if(operandSign !== ''){
+                if ((firstNumber === 0 || firstNumber === '') && operandSign === '/'){
+                    result = 'Error';
+                } else {
+                    result = Number((operate(secondNumber, firstNumber, operandSign)).toFixed(4));
+                }
+                numberDisplayValue.textContent = result;
+                operationsDisplayValue.textContent = `${secondNumber} ${operandSign} ${firstNumber} = ${result}`;
+            
+                firstNumber = result;
+        
+                operandSign = '+';
+                operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
+                // Very important, assigns value of first number to secondNumber variable
+                // After this, the first number becomes like the real "second number" until equals is clicked
+                secondNumber = firstNumber;
+                firstNumber = '';
+            } else {
+                operandSign = '+';
+                operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
+                // Very important, assigns value of first number to secondNumber variable
+                // After this, the first number becomes like the real "second number" until equals is clicked
+                secondNumber = firstNumber;
+                firstNumber = '';
+            }
         } else {
             // Equals key was pressed
-            if(firstNumber !== 0 && firstNumber !== '' && secondNumber !== 0){
+            if((firstNumber !== 0 && firstNumber !== '') || (secondNumber !== 0)){
                 // The secondNumber is the first argument because it actually holds the value of the first/initial number
                 // Likewise, the firstNumber variable actually holds the second number value and is reset to the resulting number of the operation
                 result = Number((operate(secondNumber, firstNumber, operandSign)).toFixed(4));
@@ -260,6 +414,9 @@ document.addEventListener('keydown', function(e) {
                 operationsDisplayValue.textContent = `${secondNumber} ${operandSign} ${firstNumber} = ${result}`;
             
                 firstNumber = result;
+                // Resets secondNumber to empty string
+                secondNumber = '';
+                operandSign = '';
             }
         }
     }
@@ -268,15 +425,22 @@ document.addEventListener('keydown', function(e) {
 // Runs equal when enter is pressed
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Enter'){
-        if(firstNumber !== 0 && firstNumber !== '' && secondNumber !== 0){
+        if((firstNumber !== 0 && firstNumber !== '') || (secondNumber !== 0)){
             // The secondNumber is the first argument because it actually holds the value of the first/initial number
             // Likewise, the firstNumber variable actually holds the second number value and is reset to the resulting number of the operation
-            result = operate(secondNumber, firstNumber, operandSign);
+            if ((firstNumber === 0 || firstNumber === '') && operandSign === '/'){
+                result = 'Error';
+            } else {
+                result = Number((operate(secondNumber, firstNumber, operandSign)).toFixed(4));
+            }
             numberDisplayValue.textContent = result;
             operationsDisplayValue.textContent = `${secondNumber} ${operandSign} ${firstNumber} = ${result}`;
         
             firstNumber = result;
-        }
+            // Resets secondNumber to empty string
+            secondNumber = '';
+            operandSign = '';
+            }
     }
 });
 
@@ -290,24 +454,62 @@ plusMinusKey.addEventListener('click', () => {
 
 
 minusKey.addEventListener('click', () => {
-    operandSign = '-';
-    operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
-    // Very important, assigns value of first number to secondNumber variable
-    // After this, the first number becomes like the real "second number" until equals is clicked
-    secondNumber = firstNumber;
-    firstNumber = '';
-    minusKey.style.backgroundColor = 'blue';
+    if(operandSign !== ''){
+        if ((firstNumber === 0 || firstNumber === '') && operandSign === '/'){
+            result = 'Error';
+        } else {
+            result = Number((operate(secondNumber, firstNumber, operandSign)).toFixed(4));
+        }
+        numberDisplayValue.textContent = result;
+        operationsDisplayValue.textContent = `${secondNumber} ${operandSign} ${firstNumber} = ${result}`;
+    
+        firstNumber = result;
+
+        operandSign = '-';
+        operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
+        // Very important, assigns value of first number to secondNumber variable
+        // After this, the first number becomes like the real "second number" until equals is clicked
+        secondNumber = firstNumber;
+        firstNumber = '';
+    } else {
+        operandSign = '-';
+        operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
+        // Very important, assigns value of first number to secondNumber variable
+        // After this, the first number becomes like the real "second number" until equals is clicked
+        secondNumber = firstNumber;
+        firstNumber = '';
+    }
 });
 
 plusKey.addEventListener('click', () => {
-    operandSign = '+';
-    operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
-    // Very important, assigns value of first number to secondNumber variable
-    // After this, the first number becomes like the real "second number" until equals is clicked
-    secondNumber = firstNumber;
-    firstNumber = '';
+    if(operandSign !== ''){
+        if ((firstNumber === 0 || firstNumber === '') && operandSign === '/'){
+            result = 'Error';
+        } else {
+            result = Number((operate(secondNumber, firstNumber, operandSign)).toFixed(4));
+        }
+        numberDisplayValue.textContent = result;
+        operationsDisplayValue.textContent = `${secondNumber} ${operandSign} ${firstNumber} = ${result}`;
+    
+        firstNumber = result;
+
+        operandSign = '+';
+        operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
+        // Very important, assigns value of first number to secondNumber variable
+        // After this, the first number becomes like the real "second number" until equals is clicked
+        secondNumber = firstNumber;
+        firstNumber = '';
+    } else {
+        operandSign = '+';
+        operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
+        // Very important, assigns value of first number to secondNumber variable
+        // After this, the first number becomes like the real "second number" until equals is clicked
+        secondNumber = firstNumber;
+        firstNumber = '';
+    }
 });
 
+/* OG event listener
 timesKey.addEventListener('click', () => {
     operandSign = 'x';
     operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
@@ -316,14 +518,62 @@ timesKey.addEventListener('click', () => {
     secondNumber = firstNumber;
     firstNumber = '';
 });
+*/
+
+timesKey.addEventListener('click', () => {
+    if(operandSign !== ''){
+        if ((firstNumber === 0 || firstNumber === '') && operandSign === '/'){
+            result = 'Error';
+        } else {
+            result = Number((operate(secondNumber, firstNumber, operandSign)).toFixed(4));
+        }
+        numberDisplayValue.textContent = result;
+        operationsDisplayValue.textContent = `${secondNumber} ${operandSign} ${firstNumber} = ${result}`;
+    
+        firstNumber = result;
+
+        operandSign = 'x';
+        operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
+        // Very important, assigns value of first number to secondNumber variable
+        // After this, the first number becomes like the real "second number" until equals is clicked
+        secondNumber = firstNumber;
+        firstNumber = '';
+    } else {
+        operandSign = 'x';
+        operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
+        // Very important, assigns value of first number to secondNumber variable
+        // After this, the first number becomes like the real "second number" until equals is clicked
+        secondNumber = firstNumber;
+        firstNumber = '';
+    }
+});
 
 divideKey.addEventListener('click', () => {
-    operandSign = '/';
-    operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
-    // Very important, assigns value of first number to secondNumber variable
-    // After this, the first number becomes like the real "second number" until equals is clicked
-    secondNumber = firstNumber;
-    firstNumber = '';
+    if(operandSign !== ''){
+        if ((firstNumber === 0 || firstNumber === '') && operandSign === '/'){
+            result = 'Error';
+        } else {
+            result = Number((operate(secondNumber, firstNumber, operandSign)).toFixed(4));
+        }
+        numberDisplayValue.textContent = result;
+        operationsDisplayValue.textContent = `${secondNumber} ${operandSign} ${firstNumber} = ${result}`;
+    
+        firstNumber = result;
+
+        operandSign = '/';
+        operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
+        // Very important, assigns value of first number to secondNumber variable
+        // After this, the first number becomes like the real "second number" until equals is clicked
+        secondNumber = firstNumber;
+        firstNumber = '';
+    } else {
+        operandSign = '/';
+        operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
+        // Very important, assigns value of first number to secondNumber variable
+        // After this, the first number becomes like the real "second number" until equals is clicked
+        secondNumber = firstNumber;
+        firstNumber = '';
+    }
 });
 
 
