@@ -1,3 +1,4 @@
+//========================= VARIABLES =========================//
 // Function keys
 const clearKey = document.querySelector('#clear-key');
 const deleteKey = document.querySelector('#delete-key');
@@ -26,13 +27,14 @@ const allNumberKeys = document.querySelectorAll('.number__key')
 // Number and operation display containers
 const operationsDisplayValue = document.querySelector('.operations__display');
 const numberDisplayValue = document.querySelector('.number__display');
-
-// Initial number and operator values THINK OF STARTING VALUES '' AS EMPTY STRINGS; USERS SHOULD BE ABLE TO ADD TO ZERO
+// Initial number values
 let firstNumber = 0;
 let secondNumber = 0;
+// Initial operator and result values
 let operandSign = '';
 let result = null;
 
+//========================= FUNCTION THAT POWERS EVERY OPERATION =========================//
 // Operate function
 function operate(num1, num2, operator){
     switch(operator){
@@ -52,13 +54,15 @@ function operate(num1, num2, operator){
             return exponent(num1, num2);
             break;
         default: 
-        return 'Something went wrong';
+        return 'Something went very wrong';
     }
 }
 
+//========================= INITIAL CALCULATOR DISPLAY VALUES =========================//
 numberDisplayValue.textContent = firstNumber;
 operationsDisplayValue.textContent = '';
 
+//========================= CLEAR CALCULATOR FUNCTION =========================//
 function updateNumberDisplay(number){
     firstNumber = number;
     // This will set the second number back to 0, its default
@@ -67,29 +71,7 @@ function updateNumberDisplay(number){
     return numberDisplayValue.textContent = firstNumber;
 }
 
-// Dot event listener
-dotKey.addEventListener('click', () => {
-    if(!firstNumber.toString().includes('.')){
-        if(firstNumber === 0){
-            firstNumber = '';
-        }
-        firstNumber += ".";
-        numberDisplayValue.textContent = firstNumber;
-    }
-});
-
-document.addEventListener('keydown', function(e) {
-    if (e.key === '.'){
-        if(!firstNumber.toString().includes('.')){
-            if(firstNumber === 0){
-                firstNumber = '';
-            }
-            firstNumber += ".";
-            numberDisplayValue.textContent = firstNumber;
-        }
-    }
-});
-
+//========================= NUMBERS EVENT LISTENERS =========================//
 // Zero key event listener
 zeroKey.addEventListener('click', () => {
     if(firstNumber === 0){
@@ -300,14 +282,17 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
+//========================= OTHER OPERATIONS EVENT LISTENERS =========================//
 // Clear key event listener
 clearKey.addEventListener('click', () => {
     updateNumberDisplay(0);
+    operandSign = '';
 });
 
 document.addEventListener('keydown', function(e) {
     if (e.key === 'c'){
         updateNumberDisplay(0);
+        operandSign = '';
     }
 });
 
@@ -354,6 +339,30 @@ document.addEventListener('keydown', function(e){
     }
 });
 
+// Dot event listener
+dotKey.addEventListener('click', () => {
+    if(!firstNumber.toString().includes('.')){
+        if(firstNumber === 0){
+            firstNumber = '';
+        }
+        firstNumber += ".";
+        numberDisplayValue.textContent = firstNumber;
+    }
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === '.'){
+        if(!firstNumber.toString().includes('.')){
+            if(firstNumber === 0){
+                firstNumber = '';
+            }
+            firstNumber += ".";
+            numberDisplayValue.textContent = firstNumber;
+        }
+    }
+});
+
+//========================= MATH OPERATORS EVENT LISTENERS =========================//
 // Equals key event listener
 equalsKey.addEventListener('click', () => {
     if((firstNumber !== 0 && firstNumber !== '') || (secondNumber !== 0)){
@@ -481,6 +490,36 @@ minusKey.addEventListener('click', () => {
     }
 });
 
+document.addEventListener('keydown', function(e){
+    if (e.key === '-'){
+        if(operandSign !== ''){
+            if ((firstNumber === 0 || firstNumber === '') && operandSign === '/'){
+                result = 'Error';
+            } else {
+                result = Number((operate(secondNumber, firstNumber, operandSign)).toFixed(4));
+            }
+            numberDisplayValue.textContent = result;
+            operationsDisplayValue.textContent = `${secondNumber} ${operandSign} ${firstNumber} = ${result}`;
+        
+            firstNumber = result;
+    
+            operandSign = '-';
+            operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
+            // Very important, assigns value of first number to secondNumber variable
+            // After this, the first number becomes like the real "second number" until equals is clicked
+            secondNumber = firstNumber;
+            firstNumber = '';
+        } else {
+            operandSign = '-';
+            operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
+            // Very important, assigns value of first number to secondNumber variable
+            // After this, the first number becomes like the real "second number" until equals is clicked
+            secondNumber = firstNumber;
+            firstNumber = '';
+        }
+    }
+});
+
 plusKey.addEventListener('click', () => {
     if(operandSign !== ''){
         if ((firstNumber === 0 || firstNumber === '') && operandSign === '/'){
@@ -509,17 +548,6 @@ plusKey.addEventListener('click', () => {
     }
 });
 
-/* OG event listener
-timesKey.addEventListener('click', () => {
-    operandSign = 'x';
-    operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
-    // Very important, assigns value of first number to secondNumber variable
-    // After this, the first number becomes like the real "second number" until equals is clicked
-    secondNumber = firstNumber;
-    firstNumber = '';
-});
-*/
-
 timesKey.addEventListener('click', () => {
     if(operandSign !== ''){
         if ((firstNumber === 0 || firstNumber === '') && operandSign === '/'){
@@ -545,6 +573,36 @@ timesKey.addEventListener('click', () => {
         // After this, the first number becomes like the real "second number" until equals is clicked
         secondNumber = firstNumber;
         firstNumber = '';
+    }
+});
+
+document.addEventListener('keydown', function(e){
+    if ((e.key === 'x') || e.key === '*'){
+        if(operandSign !== ''){
+            if ((firstNumber === 0 || firstNumber === '') && operandSign === '/'){
+                result = 'Error';
+            } else {
+                result = Number((operate(secondNumber, firstNumber, operandSign)).toFixed(4));
+            }
+            numberDisplayValue.textContent = result;
+            operationsDisplayValue.textContent = `${secondNumber} ${operandSign} ${firstNumber} = ${result}`;
+        
+            firstNumber = result;
+    
+            operandSign = 'x';
+            operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
+            // Very important, assigns value of first number to secondNumber variable
+            // After this, the first number becomes like the real "second number" until equals is clicked
+            secondNumber = firstNumber;
+            firstNumber = '';
+        } else {
+            operandSign = 'x';
+            operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
+            // Very important, assigns value of first number to secondNumber variable
+            // After this, the first number becomes like the real "second number" until equals is clicked
+            secondNumber = firstNumber;
+            firstNumber = '';
+        }
     }
 });
 
@@ -576,7 +634,37 @@ divideKey.addEventListener('click', () => {
     }
 });
 
+document.addEventListener('keydown', function(e){
+    if (e.key === '/'){
+        if(operandSign !== ''){
+            if ((firstNumber === 0 || firstNumber === '') && operandSign === '/'){
+                result = 'Error';
+            } else {
+                result = Number((operate(secondNumber, firstNumber, operandSign)).toFixed(4));
+            }
+            numberDisplayValue.textContent = result;
+            operationsDisplayValue.textContent = `${secondNumber} ${operandSign} ${firstNumber} = ${result}`;
+        
+            firstNumber = result;
+    
+            operandSign = '/';
+            operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
+            // Very important, assigns value of first number to secondNumber variable
+            // After this, the first number becomes like the real "second number" until equals is clicked
+            secondNumber = firstNumber;
+            firstNumber = '';
+        } else {
+            operandSign = '/';
+            operationsDisplayValue.textContent = `${firstNumber} ${operandSign} `;
+            // Very important, assigns value of first number to secondNumber variable
+            // After this, the first number becomes like the real "second number" until equals is clicked
+            secondNumber = firstNumber;
+            firstNumber = '';
+        }
+    }
+});
 
+//========================= MATH OPERATION FUNCTIONS =========================//
 // Math operation functions
 function add(a, b){
     return Number(a) + Number(b);
@@ -602,7 +690,7 @@ function exponent(a, b){
     return Number(a) ** Number(b);
 }
 
-
+//========================= LOOPS =========================//
 // Loops over all number keys and uses event listeners to add/remove classes
 for (let i = 0; i < allNumberKeys.length; i++){
     allNumberKeys[i].addEventListener('mousedown', () => {

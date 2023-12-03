@@ -11,7 +11,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--dark__bg__color);
+    background-color: #d6d5d5;
 }
 
 /*Variables*/
@@ -32,6 +32,8 @@ body{
     width: 24rem;
     border-radius: 1rem;
     border: 5px solid var(--dark__font__color);
+    background-color: var(--dark__bg__color);
+    padding: 0.5rem;
 }
 
 .calculator__display{
